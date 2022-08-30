@@ -35,16 +35,12 @@ public class PriceList implements IPriceList{
   }
 
   @Override
-  public void readPriceList(String filePath) throws IOException, InstantiationException
+  public void readPriceList(String filePath) throws IOException, InstantiationException, InvalidSku
   {
-    FileReader in = null;
-    BufferedReader buffReader = null;
-
-    try
+    try (
+      FileReader in = new FileReader(filePath);
+      BufferedReader buffReader = new BufferedReader(in))
     {
-      in = new FileReader(filePath);
-      buffReader = new BufferedReader(in);
-  
       while (buffReader.ready()) 
       {
         String line = buffReader.readLine();
@@ -53,7 +49,11 @@ public class PriceList implements IPriceList{
 
         if (parts.length == 2)
         {
-          String sku = parts[0];
+          String sku = parts[0].trim();
+          if ((sku.length() != 1) || !sku.matches("^[a-zA-Z]*$"))
+          {
+            throw new InvalidSku(sku);
+          }
           int unitPrice = Integer.parseInt(parts[1]);
           IPriceRecord priceRecord = new PriceRecord(sku, unitPrice);
           this.priceRecords.put(sku, priceRecord);
@@ -71,16 +71,6 @@ public class PriceList implements IPriceList{
         {
           throw new InstantiationException("Invalid Price Record - must have 2 or 4 fields");
         }
-      }
-    }
-    finally{
-      if (buffReader != null)
-      {
-        buffReader.close();
-      }
-      if (in != null)
-      { 
-        in.close();
       }
     }
   }

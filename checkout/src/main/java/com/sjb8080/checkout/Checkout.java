@@ -8,18 +8,19 @@ public class Checkout
   private static IPriceCalculator priceCalculator;
   private static IReceipt receipt;
   
-  static
+  private static void initialise(String priceListPath)
   {
     priceCalculator = new PriceCalculator();
     priceList = new PriceList();
 
     try{
-      priceList.readPriceList("priceList.csv");
+      priceList.readPriceList(priceListPath);
       receipt = new Receipt(priceList, priceCalculator);
     }
     catch (Exception e) 
     {
       System.out.println("Exception");
+
       System.out.println(e.toString());
       System.exit(1);
     }
@@ -27,11 +28,19 @@ public class Checkout
 
   public static void main(String[] args)
   {
+    if (args.length == 0)
+    {
+      System.out.println("Path to price list must be supplied on command line.");
+      System.exit(2);
+    }
+
+    initialise(args[0]);
+
     System.out.println("Enter skus, one per line. Empty line to get total and finish");
-    Scanner scanner = new Scanner(System.in);
+    
     IInputProcessor inputProcessor = new InputProcessor(receipt);
 
-    try
+    try (Scanner scanner = new Scanner(System.in))
     {
       boolean ok = true;
       while (ok)
@@ -54,10 +63,5 @@ public class Checkout
       System.out.println("=================");
       System.out.println("TOTAL: " + receipt.getTotal());
     }
-    finally
-    {
-      scanner.close();
-    }
   }
-
 }
