@@ -3,7 +3,6 @@ package com.sjb8080.checkout;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
 import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
@@ -28,14 +27,14 @@ public class InputProcessorTest {
   {
     try
     {
-      PriceList priceList = new PriceList();
+      IPriceList priceList = new PriceList();
       priceList.readPriceList("..\\priceList.csv");
 
       IPriceCalculator priceCalculator = new PriceCalculator();
         
-      Receipt receipt = new Receipt(priceList, priceCalculator);
+      IReceipt receipt = new Receipt(priceList, priceCalculator);
 
-      InputProcessor inputProcessor = new InputProcessor(receipt);
+      IInputProcessor inputProcessor = new InputProcessor(receipt);
 
       Scanner scanner = new Scanner(file);
 

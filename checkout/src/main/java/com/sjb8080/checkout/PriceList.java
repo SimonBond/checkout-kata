@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PriceList {
-  private int version;
-  private Map<String, PriceRecord> priceRecords;
+public class PriceList implements IPriceList{
+  private final int version;
+  private final Map<String, IPriceRecord> priceRecords;
 
   public PriceList()
   {
@@ -16,27 +16,26 @@ public class PriceList {
     priceRecords = new HashMap<>();
   }
 
-  public void setVersion(int version)
-  {
-    this.version = version;
-  }
-
+  @Override
   public int getVersion()
   {
     return this.version;
   }
 
-  public PriceRecord getPriceRecord(String sku)
+  @Override
+  public IPriceRecord getPriceRecord(String sku)
   {
     return priceRecords.get(sku);
   }
 
-  public void addPriceRecord(PriceRecord priceRecord)
+  @Override
+  public void addPriceRecord(IPriceRecord priceRecord)
   {
     priceRecords.put(priceRecord.getSku(), priceRecord);
   }
 
-  public void readPriceList(String filePath) throws IOException
+  @Override
+  public void readPriceList(String filePath) throws IOException, InstantiationException
   {
     FileReader in = null;
     BufferedReader buffReader = null;
@@ -56,7 +55,7 @@ public class PriceList {
         {
           String sku = parts[0];
           int unitPrice = Integer.parseInt(parts[1]);
-          PriceRecord priceRecord = new PriceRecord(sku, unitPrice);
+          IPriceRecord priceRecord = new PriceRecord(sku, unitPrice);
           this.priceRecords.put(sku, priceRecord);
         }
         else if (parts.length == 4)
@@ -65,18 +64,14 @@ public class PriceList {
           int unitPrice = Integer.parseInt(parts[1]);
           int multiBuyUnits = Integer.parseInt(parts[2]);
           int multiBuyPrice = Integer.parseInt(parts[3]);
-          PriceRecord priceRecord = new PriceRecord(sku, unitPrice, multiBuyUnits, multiBuyPrice);
+          IPriceRecord priceRecord = new PriceRecord(sku, unitPrice, multiBuyUnits, multiBuyPrice);
           this.priceRecords.put(sku, priceRecord);
         }
         else
         {
-          // ERROR
+          throw new InstantiationException("Invalid Price Record - must have 2 or 4 fields");
         }
       }
-    }
-    catch (InstantiationException e)
-    {
-
     }
     finally{
       if (buffReader != null)

@@ -1,36 +1,52 @@
 package com.sjb8080.checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 public class PriceListTest {
   @Test
-  void testAddPriceRecord() {
+  void testAddPriceRecord() 
+  {
 
-  }
-
-  @Test
-  void testGetPriceRecord() {
-
-  }
-
-  @Test
-  void testReadPriceList() {
-    PriceList priceList = new PriceList();
     try
     {
-      priceList.readPriceList("C:\\Source\\checkout-kata\\priceList.csv");
+      IPriceList priceList = new PriceList();
 
-      PriceRecord a = priceList.getPriceRecord("A");
-      PriceRecord b = priceList.getPriceRecord("B");
-      PriceRecord c = priceList.getPriceRecord("C");
-      PriceRecord d = priceList.getPriceRecord("D");
+      IPriceRecord a = new PriceRecord("A", 55);
+      IPriceRecord b = new PriceRecord("B", 20, 4, 50);
+
+      priceList.addPriceRecord(a);
+      priceList.addPriceRecord(b);
+
+      assertEquals(a, priceList.getPriceRecord("A"));
+      assertEquals(b, priceList.getPriceRecord("B"));
+    }
+    catch (Exception e)
+    {
+      assertTrue(false, "Exception:" + e.toString());
+    }
+
+  }
+
+  @Test
+  void testReadPriceList_and_getPriceRecord() {
+    IPriceList priceList = new PriceList();
+    try
+    {
+      priceList.readPriceList("..\\priceList.csv");
+
+      IPriceRecord a = priceList.getPriceRecord("A");
+      IPriceRecord b = priceList.getPriceRecord("B");
+      IPriceRecord c = priceList.getPriceRecord("C");
+      IPriceRecord d = priceList.getPriceRecord("D");
 
       assertEquals(50, a.getUnitPrice());
       assertEquals(130, a.getMultiBuy(3).price);
+      assertEquals(30, b.getUnitPrice());
+      assertEquals(45, b.getMultiBuy(2).price);
+      assertEquals(20, c.getUnitPrice());
       assertEquals(15, d.getUnitPrice());
     }
     catch (Exception e)
@@ -40,18 +56,8 @@ public class PriceListTest {
   }
 
   @Test
-  void testSetVersion() {
-    PriceList priceList = new PriceList();
-
-    priceList.setVersion(1);
-    assertEquals(1, priceList.getVersion());
-  }
-
-  @Test
   void testGetVersion() {
-    PriceList priceList = new PriceList();
+    IPriceList priceList = new PriceList();
     assertEquals(0, priceList.getVersion());
-    priceList.setVersion(1);
-    assertEquals(1, priceList.getVersion());
   }
 }

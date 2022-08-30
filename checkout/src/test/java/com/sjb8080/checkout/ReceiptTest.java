@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.Collection;
 
 public class ReceiptTest {
-  private static PriceRecord priceA;
-  private static PriceRecord priceB;
-  private static PriceRecord priceC;
-  private static PriceRecord priceD;
+  private static IPriceRecord priceA;
+  private static IPriceRecord priceB;
+  private static IPriceRecord priceC;
+  private static IPriceRecord priceD;
 
-  private static PriceList priceList;
+  private static IPriceList priceList;
 
   static {
     try
@@ -38,9 +38,9 @@ public class ReceiptTest {
   {
     try
     {
-      PriceCalculator priceCalculator = new PriceCalculator();
+      IPriceCalculator priceCalculator = new PriceCalculator();
       
-      Receipt receipt = new Receipt(priceList, priceCalculator);
+      IReceipt receipt = new Receipt(priceList, priceCalculator);
 
       assertNotNull(receipt);
     }
@@ -53,9 +53,9 @@ public class ReceiptTest {
   {
     try
     {
-      PriceCalculator priceCalculator = new PriceCalculator();
+      IPriceCalculator priceCalculator = new PriceCalculator();
       
-      Receipt receipt = new Receipt(priceList, priceCalculator);
+      IReceipt receipt = new Receipt(priceList, priceCalculator);
 
       receipt.addItem("A");
       Collection<ReceiptLine> lines = receipt.getLines();
@@ -89,9 +89,9 @@ public class ReceiptTest {
   {
     try
     {
-      PriceCalculator priceCalculator = new PriceCalculator();
+      IPriceCalculator priceCalculator = new PriceCalculator();
       
-      Receipt receipt = new Receipt(priceList, priceCalculator);
+      IReceipt receipt = new Receipt(priceList, priceCalculator);
 
       receipt.addItem("A");
       receipt.addItem("B");

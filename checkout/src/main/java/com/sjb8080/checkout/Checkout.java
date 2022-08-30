@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Checkout 
 {
-  private static PriceList priceList;
+  private static IPriceList priceList;
   private static IPriceCalculator priceCalculator;
   private static IReceipt receipt;
   

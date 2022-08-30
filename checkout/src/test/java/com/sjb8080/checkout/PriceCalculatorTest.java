@@ -10,9 +10,9 @@ public class PriceCalculatorTest
   {
     try
     {
-      PriceCalculator priceCalculator = new PriceCalculator();
+      IPriceCalculator priceCalculator = new PriceCalculator();
 
-      PriceRecord priceRecord = new PriceRecord("A", 50, 3, 130);
+      IPriceRecord priceRecord = new PriceRecord("A", 50, 3, 130);
       int priceFor1 = priceCalculator.calculatePrice(1, priceRecord);
       assertEquals(50, priceFor1);
       int priceFor2 = priceCalculator.calculatePrice(2, priceRecord);
@@ -31,9 +31,9 @@ public class PriceCalculatorTest
   {
     try
     {
-      PriceCalculator priceCalculator = new PriceCalculator();
+      IPriceCalculator priceCalculator = new PriceCalculator();
 
-      PriceRecord priceRecord = new PriceRecord("A", 50);
+      IPriceRecord priceRecord = new PriceRecord("A", 50);
       int priceFor1 = priceCalculator.calculatePrice(1, priceRecord);
       assertEquals(50, priceFor1);
       int priceFor2 = priceCalculator.calculatePrice(2, priceRecord);

@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 public class Receipt implements IReceipt {
   private Map<String, ReceiptLine> lines;
-  private final PriceList priceList;
+  private final IPriceList priceList;
   private final IPriceCalculator priceCalculator;
   
-  public Receipt(PriceList priceList, IPriceCalculator priceCalculator) throws InstantiationException
+  public Receipt(IPriceList priceList, IPriceCalculator priceCalculator) throws InstantiationException
   {
     if ((priceList == null) || (priceCalculator == null))
     {
@@ -28,7 +28,7 @@ public class Receipt implements IReceipt {
       throw new InvalidSku(sku);
     }
     ReceiptLine receiptLine = lines.get(sku);
-    PriceRecord priceRecord = priceList.getPriceRecord(sku);
+    IPriceRecord priceRecord = priceList.getPriceRecord(sku);
 
     if (priceRecord == null)
     {

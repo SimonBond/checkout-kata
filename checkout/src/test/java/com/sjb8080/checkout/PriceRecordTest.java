@@ -12,7 +12,7 @@ public class PriceRecordTest {
   {
     try
     {
-      PriceRecord priceRecord = new PriceRecord("A", 50, 3, 130);
+      IPriceRecord priceRecord = new PriceRecord("A", 50, 3, 130);
 
       assertNotNull(priceRecord);
       assertEquals("A", priceRecord.getSku());
@@ -28,7 +28,7 @@ public class PriceRecordTest {
   @Test
   public void testConstructorShort()
   {
-    PriceRecord priceRecord = new PriceRecord("A", 50);
+    IPriceRecord priceRecord = new PriceRecord("A", 50);
 
     assertNotNull(priceRecord);
     assertEquals("A", priceRecord.getSku());
